@@ -11,7 +11,6 @@ public class MagicNumbers : MonoBehaviour
     private int _guess;
     private int _step;
 
-
     #endregion
 
     #region Unity lifecycle
@@ -39,7 +38,7 @@ public class MagicNumbers : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _consoleText.text += $"\n Ура! Твое число угадано и равно {_guess}! Количество затраченных ходов: {_step}";
+            _consoleText.text += $"\nУра! Твое число угадано и равно {_guess}!\nКоличество затраченных ходов: {_step}";
             RestartGame();
         }
     }
@@ -60,7 +59,8 @@ public class MagicNumbers : MonoBehaviour
         _step = 0;
         _min = PlayerPrefs.GetInt("DefaultMin", _min);
         _max = PlayerPrefs.GetInt("DefaultMax", _max);
-        _consoleText.text += $"\n \n Привет в Magic Numbers! Загадай число от {_min} до {_max}";
+        _consoleText.text += "\n____________________________";
+        _consoleText.text += $"\nПривет в Magic Numbers!\nЗагадай число от {_min} до {_max}";
         CalculateGuessAndLog();
     }
 

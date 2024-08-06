@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class MagicNumbers : MonoBehaviour
@@ -6,8 +7,10 @@ public class MagicNumbers : MonoBehaviour
 
     [SerializeField] private int _max = 10000;
     [SerializeField] private int _min = 1;
-
+    [SerializeField] private TextMeshProUGUI _consoleText;
     private int _guess;
+    private int _step;
+
 
     #endregion
 
@@ -15,9 +18,9 @@ public class MagicNumbers : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"Привет в Magic Numbers. Загадай число от {_min} до {_max}");
-
-        CalculateGuessAndLog();
+        PlayerPrefs.SetInt("DefaultMax", _max);
+        PlayerPrefs.SetInt("DefaultMin", _min);
+        RestartGame();
     }
 
     private void Update()
@@ -30,13 +33,14 @@ public class MagicNumbers : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            _max = _guess;
+            _min = _guess;
             CalculateGuessAndLog();
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log($"Ура! Твое число угадано и равно {_guess}");
+            _consoleText.text += $"\n Ура! Твое число угадано и равно {_guess}! Количество затраченных ходов: {_step}";
+            RestartGame();
         }
     }
 
@@ -47,7 +51,17 @@ public class MagicNumbers : MonoBehaviour
     private void CalculateGuessAndLog()
     {
         _guess = (_max + _min) / 2;
-        Debug.Log($"Твое число равно {_guess}?");
+        _step++;
+        _consoleText.text += $"\n Твое число равно {_guess}?";
+    }
+
+    private void RestartGame()
+    {
+        _step = 0;
+        _min = PlayerPrefs.GetInt("DefaultMin", _min);
+        _max = PlayerPrefs.GetInt("DefaultMax", _max);
+        _consoleText.text += $"\n \n Привет в Magic Numbers! Загадай число от {_min} до {_max}";
+        CalculateGuessAndLog();
     }
 
     #endregion
